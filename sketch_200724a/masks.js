@@ -1,18 +1,17 @@
-
-class Corona {
+class Mask {
   constructor(){
     this.x = random(100, displayWidth - 100);
-    this.y = random(40, 250);
+    this.y = random(40, 200);
   }
   show(){
-    image(covid, this.x, this.y, 50, 50);
+    image(masksc, this.x, this.y, 50, 50);
   }
   move(){
     this.y += 1;
   }
   collide(person){
     let d = dist(this.x, this.y, person.x, person.y);
-    if(d < 50){
+    if(d < 40){
       return true;
     }
     else{
@@ -21,10 +20,5 @@ class Corona {
   }
   delete(){
     this.toDelete = true;
-  }
-  reset(){
-    this.x = random(0, displayWidth);
-    this.y = random(40, 250);
-    
   }
 }

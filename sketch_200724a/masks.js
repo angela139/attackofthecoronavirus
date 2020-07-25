@@ -21,4 +21,9 @@ class Mask {
   delete(){
     this.toDelete = true;
   }
+  reset(){
+    this.x = random(100, displayWidth - 100);
+    this.y = random(40, 200);
+    
+  }
 }

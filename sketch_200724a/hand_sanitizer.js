@@ -9,15 +9,18 @@ class Hand {
     ellipse(this.x, this.y, 15, 15);
   }
   move(){
-    this.y -= 5;
+    this.y -= 10;
   }
   collide(corona){
     let d = dist(this.x, this.y, corona.x, corona.y);
-    if(d < 15.5){
+    if(d < 50){
       return true;
     }
     else{
       return false;
     }
+  }
+  delete(){
+    this.toDelete = true;
   }
 }

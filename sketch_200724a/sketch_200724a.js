@@ -14,18 +14,26 @@ function draw() {
   background(0);
   person.show();
   person.move();
+  for(let i = 0; i < coronas.length; i++){
+    coronas[i].show();
+    coronas[i].move();
+  }
   for(let i = 0; i < drops.length; i++){
     drops[i].show();
     drops[i].move();
     for(let c = 0; c < coronas.length; c++){
       if(drops[i].collide(coronas[c])){
-        console.log("Hey");
+        coronas[c].delete();
+        drops[i].delete();
+        if (coronas[c].toDelete) {
+          coronas.splice(c, 1);
+        }
       }
     }
-  }
-  for(let i = 0; i < coronas.length; i++){
-    coronas[i].show();
-    coronas[i].move();
+    if (drops[i].toDelete) {
+      drops.splice(i, 1);
+    }
+    
   }
   
 }

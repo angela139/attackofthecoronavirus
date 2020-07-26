@@ -139,26 +139,12 @@ function draw() {
   // If the person has no more hearts, game over.
   if (hearts.length == 0){
     hearts.splice(0, 1);
-    noLoop();
-    clear();
-    background(0);
-    //this is the outline box
-    let rect_width = 500;
-    let rect_height = 500;
-    fill(255);
-    rect((displayWidth/2) - (rect_width/2), (displayHeight/2) - (rect_height/1.5), rect_width, rect_height, 20);
+    game_over();
   
-    //this the gameover text
-    image(gameover, (displayWidth/2) - (450/2), 140, 450, 275);  
-  
-    //this the score text
-    scores();
-    //this the highscore text
-    highscore();
-  
-    //button
-    f_button(); 
-  
+  }
+  // If the person goes past the borders to hide from coronaviruses, game over.
+  if (person.x < 0 || person.x > width){
+    game_over();
   }
   
 }
@@ -216,6 +202,28 @@ function change_game() {
   button.hide();
   loop();
   
+}
+
+function game_over(){
+    noLoop();
+    clear();
+    background(0);
+    //this is the outline box
+    let rect_width = 500;
+    let rect_height = 500;
+    fill(255);
+    rect((displayWidth/2) - (rect_width/2), (displayHeight/2) - (rect_height/1.5), rect_width, rect_height, 20);
+  
+    //this the gameover text
+    image(gameover, (displayWidth/2) - (450/2), 140, 450, 275);  
+  
+    //this the score text
+    scores();
+    //this the highscore text
+    highscore();
+  
+    //button
+    f_button();
 }
 
   

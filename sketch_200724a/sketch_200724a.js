@@ -5,11 +5,24 @@ let masks = [];
 const numcorona = 100;
 const nummask = 10;
 let drops = [];
-let score = 0;
-let overlapping = false;
+let current_score = 0;
+let high_score = 0;
+
+function preload() {
+  avatar = loadImage('assets/avatar.png');
+  covid = loadImage('assets/coronavirus.png');
+  hand_sanitizer = loadImage('assets/hand_sanitizer.png');
+  heartv = loadImage('assets/heart.png');
+  masksc = loadImage('assets/mask.png');
+  gameover = loadImage('assets/gameoverimage.png');
+  font = loadFont('assets/slkscr.ttf');
+}
 
 function setup() {
   createCanvas(displayWidth, displayHeight - 200);
+  resetS();
+}
+function resetS(){
   person = new Person();
   // Create Hearts
   for(let i = 0; i < 3; i++){
@@ -37,7 +50,7 @@ function draw() {
   textFont(font);
   textSize(30);
   text("Lives:", width - 220, 57);
-  text("Score: " + score, 30, 57);
+  text("Score: " + current_score, 30, 57);
   person.show();
   // Show Hearts
   for (let i = 0; i < hearts.length; i++){
@@ -73,7 +86,7 @@ function draw() {
         drops[i].delete();
         if (coronas[c].toDelete) {
           coronas.splice(c, 1);
-          score += 1;
+          current_score += 1;
         }
       }
     }
@@ -94,26 +107,57 @@ function draw() {
             
           
         }
-        
-      
+             
     }
-    // if mask hits person, person regains all hearts.
-    for(let m = 0; m < masks.length; m++){
-      if(masks[m].collide(person)){
-          masks[m].delete();
-          if (masks[m].toDelete) {
-            masks.splice(m, 1);
-          }
-          for(let i = 0; i < 3; i++){
-            let heart = new Heart(width - i * 30 - 80, 0);
-            hearts.push(heart);
-          }
-          
+  // if mask hits person, person regains all hearts.
+  for(let m = 0; m < masks.length; m++){
+    if(masks[m].collide(person)){
+        masks[m].delete();
+        if (masks[m].toDelete) {
+          masks.splice(m, 1);
+        }
+        for(let i = 0; i < 3; i++){
+          let heart = new Heart(width - i * 30 - 80, 0);
+          hearts.push(heart);
         }
         
-        
+      }
       
-    }
+      
+    
+  }
+  // If there are less than 10 covids on the screen, adds 100 more to keep game going.
+  if (coronas.length < 10){
+      for(let i = 0; i < numcorona; i++){
+        let corona = new Corona();
+        coronas.push(corona);
+        
+      }
+  }
+  // If the person has no more hearts, game over.
+  if (hearts.length == 0){
+    hearts.splice(0, 1);
+    noLoop();
+    clear();
+    background(0);
+    //this is the outline box
+    let rect_width = 500;
+    let rect_height = 500;
+    fill(255);
+    rect((displayWidth/2) - (rect_width/2), (displayHeight/2) - (rect_height/1.5), rect_width, rect_height, 20);
+  
+    //this the gameover text
+    image(gameover, (displayWidth/2) - (450/2), 140, 450, 275);  
+  
+    //this the score text
+    scores();
+    //this the highscore text
+    highscore();
+  
+    //button
+    f_button(); 
+  
+  }
   
 }
 
@@ -124,3 +168,51 @@ function keyPressed(){
     }
     return false;
   }
+
+function scores() {
+  let score_x = (displayWidth/2) - (450/2) + 25;
+  let score_y = 400;
+  fill(0);
+  textSize(50);
+  text('SCORE', score_x, score_y);
+  text(current_score, score_x, score_y + 50);
+}
+
+function highscore() {
+  let highscore_x = (displayWidth/2) + (450/2) - 175;
+  let highscore_y = 400;
+  fill(0);
+  text('best', highscore_x, highscore_y);
+  if (current_score > high_score){
+    text(current_score, highscore_x, highscore_y + 50);
+    high_score = current_score;
+  }
+  else{
+    text(high_score, highscore_x, highscore_y + 50);
+  }
+}
+
+function f_button() {
+  button = createButton('RETRY');
+  button.mousePressed(change_game);
+  button.position((displayWidth/2) - 125, 570);
+  button.size(250, 75);
+  button.style("background-color","#D3D3D3");
+  button.style("color","#fff");
+  button.style("font-size","20px");
+  button.style("font-family", "Courier");
+}
+
+function change_game() {
+  clear();
+  current_score = 0;
+  coronas.length = 0;
+  masks.length = 0;
+  drops.length = 0;
+  resetS();
+  button.hide();
+  loop();
+  
+}
+
+  

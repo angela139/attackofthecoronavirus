@@ -1,11 +1,3 @@
-function preload() {
-  avatar = loadImage('assets/avatar.png');
-  covid = loadImage('assets/coronavirus.png');
-  hand_sanitizer = loadImage('assets/hand_sanitizer.png');
-  heartv = loadImage('assets/heart.png');
-  masksc = loadImage('assets/mask.png');
-  font = loadFont('assets/slkscr.ttf');
-}
 
 class Person {
   constructor(){

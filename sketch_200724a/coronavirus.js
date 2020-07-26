@@ -12,7 +12,7 @@ class Corona {
   }
   collide(person){
     let d = dist(this.x, this.y, person.x, person.y);
-    if(d < 50){
+    if(d < 55){
       return true;
     }
     else{

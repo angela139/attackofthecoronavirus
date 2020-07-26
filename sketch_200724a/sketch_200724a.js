@@ -2,8 +2,8 @@ let person;
 let hearts = [];
 let coronas = [];
 let masks = [];
-const numcorona = 100;
-const nummask = 10;
+let numcorona = 100;
+let nummask = 10;
 let drops = [];
 let current_score = 0;
 let high_score = 0;
@@ -119,15 +119,17 @@ function draw() {
         for(let i = 0; i < 3; i++){
           let heart = new Heart(width - i * 30 - 80, 0);
           hearts.push(heart);
+          if (hearts.length > 3){
+            hearts.splice(0, 1);
+          }
         }
         
       }
       
-      
-    
   }
-  // If there are less than 10 covids on the screen, adds 100 more to keep game going.
+  // If there are less than 10 covids on the screen, adds the previous start amount + 50 more to keep game going.
   if (coronas.length < 10){
+      numcorona += 50;
       for(let i = 0; i < numcorona; i++){
         let corona = new Corona();
         coronas.push(corona);
@@ -209,6 +211,7 @@ function change_game() {
   coronas.length = 0;
   masks.length = 0;
   drops.length = 0;
+  numcorona = 100;
   resetS();
   button.hide();
   loop();
